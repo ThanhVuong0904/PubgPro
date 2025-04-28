@@ -41,15 +41,16 @@ export default function MatchAnalysis() {
     }, [isError, toast]);
 
     useEffect(() => {
-        if (matchData || matchData?.participants || targetAccountId) {
+        if (matchData?.participants && targetAccountId) {
             const targetPlayer = matchData.participants.find((p: any) => {
                 return p.playerId === targetAccountId;
             });
-            console.log({ targetPlayer });
+
+            console.log({ matchData, targetPlayer, targetAccountId });
 
             setMainTeamId(targetPlayer?.teamId);
         }
-    }, [matchId, targetAccountId]);
+    }, [matchData, targetAccountId]);
 
     if (isLoading) {
         return <LoadingSpinner />;
