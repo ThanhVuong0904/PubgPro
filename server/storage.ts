@@ -270,7 +270,7 @@ export const storage = {
             try {
                 // Get first few matches for map statistics
                 const matchPromises = recentMatchIds
-                    .slice(0, 5)
+                    // .slice(0, 5)
                     .map((matchId) =>
                         pubgApi
                             .getMatch(platform, matchId)
@@ -280,10 +280,18 @@ export const storage = {
                                     response.data &&
                                     response.data.attributes
                                 ) {
+                                    let included = response.included;
+                                    let participant = included.find(
+                                        (p: any) =>
+                                            p.type === 'participant' &&
+                                            p.attributes.stats.playerId ===
+                                                playerId,
+                                    );
                                     return {
                                         map: response.data.attributes.mapName,
                                         createdAt:
                                             response.data.attributes.createdAt,
+                                        stats: participant?.attributes?.stats,
                                     };
                                 }
                                 return null;
@@ -567,16 +575,65 @@ function processPlayerStats(
     if (matchDetails && matchDetails.length > 0) {
         // Đếm số lần xuất hiện của mỗi bản đồ
         const mapCounts: Record<string, number> = {};
+        const mapStats: Record<
+            string,
+            {
+                totalKills: number;
+                totalDeaths: number;
+                totalWins: number;
+                totalRank: number;
+                totalMatches: number;
+            }
+        > = {};
 
         matchDetails.forEach((match) => {
-            if (match && match.map) {
-                const mapName = mapCodeToName[match.map] || match.map;
-                mapCounts[mapName] = (mapCounts[mapName] || 0) + 1;
+            const mapName = mapCodeToName[match.map] || match.map;
+
+            // Đếm số lần xuất hiện của mỗi bản đồ
+            mapCounts[mapName] = (mapCounts[mapName] || 0) + 1;
+
+            // Cập nhật thông tin cho mỗi bản đồ
+            if (!mapStats[mapName]) {
+                mapStats[mapName] = {
+                    totalKills: 0,
+                    totalDeaths: 0,
+                    totalWins: 0,
+                    totalRank: 0,
+                    totalMatches: 0,
+                };
             }
+
+            const stats = match.stats;
+            mapStats[mapName].totalKills += stats.kills;
+            if (stats.winPlace !== 1) {
+                mapStats[mapName].totalDeaths++;
+            }
+            if (stats.winPlace === 1) {
+                mapStats[mapName].totalWins++;
+            }
+            mapStats[mapName].totalRank += stats.winPlace;
+            mapStats[mapName].totalMatches++;
         });
 
-        // Chuyển thành mảng và sắp xếp theo số lần xuất hiện
+        // Tạo thông tin bản đồ với các chỉ số tính toán cho từng bản đồ
         for (const mapName in mapCounts) {
+            const stats = mapStats[mapName];
+
+            // Tính toán K/D cho mỗi bản đồ
+            const kd =
+                stats.totalDeaths > 0
+                    ? (stats.totalKills / stats.totalDeaths).toFixed(2)
+                    : stats.totalKills > 0
+                    ? stats.totalKills
+                    : 0;
+
+            // Tính toán Avg Rank cho mỗi bản đồ
+            const avgRank =
+                stats.totalMatches > 0
+                    ? (stats.totalRank / stats.totalMatches).toFixed(2)
+                    : 0;
+
+            // Thêm thông tin vào maps
             maps.push({
                 name: mapName,
                 count: mapCounts[mapName],
@@ -584,10 +641,14 @@ function processPlayerStats(
                     ((mapCounts[mapName] / matchDetails.length) * 100).toFixed(
                         1,
                     ) + '%',
+                matches: stats.totalMatches, // Tổng số trận đấu
+                kd: kd, // Tỉ lệ K/D
+                wins: stats.totalWins, // Số lần thắng
+                avgRank: avgRank, // Xếp hạng trung bình
             });
         }
 
-        // Sắp xếp theo số lần xuất hiện giảm dần
+        // Sắp xếp theo số lần xuất hiện của bản đồ giảm dần
         maps.sort((a, b) => b.count - a.count);
     }
 
