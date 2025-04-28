@@ -110,51 +110,51 @@ const MAP_DIMENSIONS: { [key: string]: { width: number; height: number } } = {
 const MAP_NAME_MAPPING: { [key: string]: { display: string; file: string } } = {
     Baltic_Main: {
         display: 'Erangel',
-        file: '/src/assets/Maps/Erangel_Main_Low_Res.png',
+        file: '/assets/Maps/Erangel_Main_Low_Res.png',
     },
     Neon_Main: {
         display: 'Rondo',
-        file: '/src/assets/Maps/Rondo_Main_Low_Res.png',
+        file: '/assets/Maps/Rondo_Main_Low_Res.png',
     },
     Desert_Main: {
         display: 'Miramar',
-        file: '/src/assets/Maps/Miramar_Main_Low_Res.png',
+        file: '/assets/Maps/Miramar_Main_Low_Res.png',
     },
     Savage_Main: {
         display: 'Sanhok',
-        file: '/src/assets/Maps/Sanhok_Main_Low_Res.png',
+        file: '/assets/Maps/Sanhok_Main_Low_Res.png',
     },
     Tiger_Main: {
         display: 'Taego',
-        file: '/src/assets/Maps/Taego_Main_Low_Res.png',
+        file: '/assets/Maps/Taego_Main_Low_Res.png',
     },
     Kiki_Main: {
         display: 'Deston',
-        file: '/src/assets/Maps/Deston_Main_Low_Res.png',
+        file: '/assets/Maps/Deston_Main_Low_Res.png',
     },
     Chimera_Main: {
         display: 'Paramo',
-        file: '/src/assets/Maps/Paramo_Main_Low_Res.png',
+        file: '/assets/Maps/Paramo_Main_Low_Res.png',
     },
     DihorOtok_Main: {
         display: 'Vikendi',
-        file: '/src/assets/Maps/Vikendi_Main_Low_Res.png',
+        file: '/assets/Maps/Vikendi_Main_Low_Res.png',
     },
     Erangel_Main: {
         display: 'Erangel',
-        file: '/src/assets/Maps/Erangel_Main_Low_Res.png',
+        file: '/assets/Maps/Erangel_Main_Low_Res.png',
     },
     Heaven_Main: {
         display: 'Haven',
-        file: '/src/assets/Maps/Haven_Main_Low_Res.png',
+        file: '/assets/Maps/Haven_Main_Low_Res.png',
     },
     Range_Main: {
         display: 'Camp Jackal',
-        file: '/src/assets/Maps/Camp_Jackal_Main_Low_Res.png',
+        file: '/assets/Maps/Camp_Jackal_Main_Low_Res.png',
     },
     Summerland_Main: {
         display: 'Karakin',
-        file: '/src/assets/Maps/Karakin_Main_Low_Res.png',
+        file: '/assets/Maps/Karakin_Main_Low_Res.png',
     },
 };
 

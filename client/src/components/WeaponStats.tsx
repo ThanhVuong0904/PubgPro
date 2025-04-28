@@ -46,7 +46,7 @@ export default function WeaponStats({ weapons = [] }: WeaponStatsProps) {
                 <div className="space-y-4">
                     {weapons.map((weapon, index) => {
                         // Generate the image URL based on the weapon ID
-                        const weaponImageUrl = `/src/assets/Item/Weapon/Main/${weapon.id}.png`;
+                        const weaponImageUrl = `/assets/Item/Weapon/Main/${weapon.id}.png`;
 
                         return (
                             <div key={index} className="flex items-center">
