@@ -763,6 +763,7 @@ function processMatchData(matchResponse: any) {
                 ),
             )?.attributes.stats.teamId,
             platform: matchData.attributes.shardId,
+            playerId: p.attributes.stats.playerId,
         })),
         assets: assets.map((a: any) => ({
             id: a.id,
@@ -842,10 +843,12 @@ function processTelemetryData(telemetryData: any) {
                         event &&
                         event.attacker &&
                         event.attacker.name &&
+                        event.attacker.teamId &&
                         event.attacker.location,
                 )
                 .map((event: any) => ({
                     attackerName: event.attacker.name,
+                    attackerTeamId: event.attacker.teamId,
                     attackerPosition: {
                         x: event.attacker.location.x,
                         y: event.attacker.location.y,
@@ -860,18 +863,22 @@ function processTelemetryData(telemetryData: any) {
                         event &&
                         event.killer &&
                         event.killer.name &&
+                        event.killer.teamId &&
                         event.killer.location &&
                         event.victim &&
                         event.victim.name &&
+                        event.victim.teamId &&
                         event.victim.location,
                 )
                 .map((event: any) => ({
                     killerName: event.killer.name,
+                    killerTeamId: event.killer.teamId,
                     killerPosition: {
                         x: event.killer.location.x,
                         y: event.killer.location.y,
                     },
                     victimName: event.victim.name,
+                    victimTeamId: event.victim.teamId,
                     victimPosition: {
                         x: event.victim.location.x,
                         y: event.victim.location.y,
